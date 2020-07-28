@@ -62,7 +62,7 @@ def advisoryinfo():
 			dfff.set_index('Code',inplace=True)
 			
 
-			ans+="\n Risk Rating  : "+str(dfff.loc[ results[0]['cc'] , 'Risk_Rating'])
+			ans+="\n\n Risk Rating  : "+str(dfff.loc[ results[0]['cc'] , 'Risk_Rating'])
 			ans+="\n Advice  : "+str(dfff.loc[ results[0]['cc'] , 'Advice'])
 		#except Exception as e: ans+=e
 		except:
