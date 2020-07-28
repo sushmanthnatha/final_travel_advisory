@@ -25,16 +25,44 @@ def index():
 
 @app.route("/index2")
 @cross_origin()
-
 def index2():
 	dirlist = os.listdir("../Travel_Risk_Analysis_Internship/scrapy_sample/Alldata/")
 	clist=""
 	for i in dirlist:
 		cname=i.split('.')[0]
 		clist+='<option value="'+cname+'">'+cname+'</option>'
-	return render_template('index2.html',country_list=clist)	
+	return render_template('index2.html',country_list=clist)
 
 
+@app.route("/index3")
+@cross_origin()
+def index3():
+	
+	df2=pd.read_csv('../Travel_Risk_Analysis_Internship/data/state_info.csv')
+	df2.set_index('State',inplace=True)
+	clist=""
+
+	for i in list(df2.index):
+		clist+='<option value="'+i+'">'+i+'</option>'	
+
+	return render_template('index3.html',state_list=clist)	
+
+
+
+@app.route("/index4")
+@cross_origin()
+def index4():
+	
+	df3=pd.read_csv('../Travel_Risk_Analysis_Internship/data/country_info.csv')
+	df3.set_index('country',inplace=True)
+	clist=""
+
+	for i in list(df3.index):
+		clist+='<option value="'+i+'">'+i+'</option>'	
+
+	return render_template('index4.html',country_list=clist)		
+
+#######################################################################3333333
 
 @app.route("/advisory_by_country", methods = ["GET","POST"])
 @cross_origin()
@@ -73,30 +101,80 @@ def advisory_by_country():
 
 	return render_template("index2.html")				
 
+###################################################################################
 
 @app.route("/covid_by_country", methods = ["GET","POST"])
 @cross_origin()
 def covid_by_country():
 	if request.method == "POST":
-		cname  = request.form["countries"]
-		ans  =  'Advisory of '+cname+'\n'
+		try:
+			cname  = request.form["countries"]
+			ans  =  'Covid details of '+cname+'\n'
 
-		
+			df3=pd.read_csv('../Travel_Risk_Analysis_Internship/data/country_info.csv')
+			df3.set_index('country',inplace=True)
+			clist=""
+
+			for i in list(df3.index):
+				clist+='<option value="'+i+'">'+i+'</option>'
+			
+
+
+			x=list(df3.loc[cname,:])	
+			ans+=x+'\nTotal_Confirmed  : '+str(x[1])
+			ans+='\nDelta_Confirmed  : '+str(x[0])
+			ans+='\nTotal_Deaths     : '+str(x[3])
+			ans+='\nDelta_Deaths     : '+str(x[2])
+		except:
+			ans='Error occured, we will rectify it soon'
+
 		
 		ans=ans.replace('\n','<br>')
 
-		dirlist = os.listdir("../Travel_Risk_Analysis_Internship/scrapy_sample/Alldata/")
-		clist=""
-		for i in dirlist:
-			c=i.split('.')[0]
-			clist+='<option value="'+c+'">'+c+'</option>'
-
-		return render_template('index2.html',entered_text=ans,country_list=clist)
-
-	return render_template("index2.html")		
+		
 
 
+		return render_template('index4.html',entered_text=ans,country_list=clist)
 
+	return render_template("index4.html")		
+
+###################################################################################
+
+@app.route("/covid_by_state", methods = ["GET","POST"])
+@cross_origin()
+def covid_by_state():
+	if request.method == "POST":
+		try:
+			cname  = request.form["states"]
+			ans  =  'Covid details of '+cname+'\n'
+
+			df2=pd.read_csv('../Travel_Risk_Analysis_Internship/data/state_info.csv')
+			df2.set_index('State',inplace=True)
+			clist=""
+
+			for i in list(df2.index):
+				clist+='<option value="'+i+'">'+i+'</option>'
+			
+
+
+			x=list(df2.loc[cname,:])
+			ans+=cname+'\nActive          : '+str(x[1])
+			ans+='\nConfirmed       : '+str(x[0])
+			ans+='\nDelta_Confirmed : '+str(x[2])
+
+		except:
+			ans='Error occured, we will rectify it soon'
+
+		
+		ans=ans.replace('\n','<br>')
+
+		
+
+
+		return render_template('index3.html',entered_text=ans,state_list=clist)
+
+	return render_template("index3.html")
+#####################################################################################
 
 @app.route("/advisoryinfo", methods = ["GET", "POST"])
 @cross_origin()

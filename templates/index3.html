@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <title>GoYanna Travel Advisory</title>
+ 
+ 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+ 
+   
+   <style type="text/css">
+       .footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+
+   width: 100%;
+   background-color: Dodgerblue;
+   color: white;
+   text-align: center;
+}     
+  
+   </style>
+
+
+</head>
+ 
+<body>
+ 
+    <div class="container">
+        <!--
+        <div class="header">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation" class="active"><a href="#">Home</a>
+                    </li>
+                    <li role="presentation"><a href="#">Sign In</a>
+                    </li>
+                    <li role="presentation"><a href="showSignUp">Sign Up</a>
+                    </li>
+                </ul>
+            </nav>
+            <h3 class="text-muted">Python Flask Applicatio</h3>
+        </div>
+    -->
+ 
+        <div class="jumbotron">
+            <h1>Covid cases - India</h1>
+            
+            
+        </div>
+
+     
+ 
+         <div class="container">
+
+
+
+        <form action="\covid_by_state" method="post">
+
+
+    
+
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Source -->
+                            <h5 class="card-subtitle mb-2 text-muted">Select State name</h5>
+                            <select name="states" id="states">
+                                  {% autoescape false %}{{state_list}}{% endautoescape %}
+                             </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3"></div>
+            </div>
+
+
+
+            <br>
+            <br>
+            <br>
+            <!-- Submit -->
+            <input type="submit" value="Search" class="btn btn-secondary">
+        </form>
+
+
+
+
+        <br>
+        <br>
+        <p>{% autoescape false %}{{entered_text}}{% endautoescape %}</p>
+
+        <br>
+        <br>
+        
+
+ <footer class="page-footer font-small blue">
+
+  <!-- Copyright -->
+  <div class="footer text-center">© 2020 Copyright : &nbsp; GoYaana
+  </div> 
+  <!-- Copyright -->
+
+</footer>
+
+
+
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+
+</body>
+ 
+</html>
