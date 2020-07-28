@@ -6,13 +6,96 @@ import pandas as pd
 import reverse_geocoder as rg
 import tempfile
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
+import os
+
+
 
 app = Flask(__name__)
 
 @app.route("/")
 @cross_origin()
 def main():
+	return render_template('home.html')
+
+@app.route("/index")
+@cross_origin()
+def index():
 	return render_template('index.html')
+
+
+@app.route("/index2")
+@cross_origin()
+
+def index2():
+	dirlist = os.listdir("../Travel_Risk_Analysis_Internship/scrapy_sample/Alldata/")
+	clist=""
+	for i in dirlist:
+		cname=i.split('.')[0]
+		clist+='<option value="'+cname+'">'+cname+'</option>'
+	return render_template('index2.html',country_list=clist)	
+
+
+
+@app.route("/advisory_by_country", methods = ["GET","POST"])
+@cross_origin()
+def advisory_by_country():
+	if request.method == "POST":
+		cname  = request.form["countries"]
+		ans  =  'Advisory of '+cname+'\n'
+
+		try:
+			with open('../Travel_Risk_Analysis_Internship/scrapy_sample/Alldata/'+cname+'.txt', 'r') as f:
+				sid = SentimentIntensityAnalyzer()
+				ss = sid.polarity_scores(f.read())  
+				ans+='\n<hr>\n'+cname+'- Sentiment Analysis - 1 : '
+				for i in ss.keys():
+					ans+=i+'-'+str(ss[i])+' , '
+				ans+='\n\n'
+		#except Exception as e: ans+=e
+		except:
+			ans+='\n<hr>\nSentiment analysis cant be done due to internal error or mismatch error'
+
+		try:
+			with open('../Travel_Risk_Analysis_Internship/scrapy_sample/Alldata/'+cname+'.txt', 'r') as f:
+				ans+='<hr>\n'+f.read()
+		except:
+			ans+='Advisory file not found or mismatch or country name'
+		
+		ans=ans.replace('\n','<br>')
+
+		dirlist = os.listdir("../Travel_Risk_Analysis_Internship/scrapy_sample/Alldata/")
+		clist=""
+		for i in dirlist:
+			c=i.split('.')[0]
+			clist+='<option value="'+c+'">'+c+'</option>'
+
+		return render_template('index2.html',entered_text=ans,country_list=clist)
+
+	return render_template("index2.html")				
+
+
+@app.route("/covid_by_country", methods = ["GET","POST"])
+@cross_origin()
+def covid_by_country():
+	if request.method == "POST":
+		cname  = request.form["countries"]
+		ans  =  'Advisory of '+cname+'\n'
+
+		
+		
+		ans=ans.replace('\n','<br>')
+
+		dirlist = os.listdir("../Travel_Risk_Analysis_Internship/scrapy_sample/Alldata/")
+		clist=""
+		for i in dirlist:
+			c=i.split('.')[0]
+			clist+='<option value="'+c+'">'+c+'</option>'
+
+		return render_template('index2.html',entered_text=ans,country_list=clist)
+
+	return render_template("index2.html")		
+
+
 
 
 @app.route("/advisoryinfo", methods = ["GET", "POST"])
@@ -62,11 +145,11 @@ def advisoryinfo():
 			dfff.set_index('Code',inplace=True)
 			
 
-			ans+="\n\n Risk Rating  : "+str(dfff.loc[ results[0]['cc'] , 'Risk_Rating'])
+			ans+="\n<hr>\n Risk Rating  : "+str(dfff.loc[ results[0]['cc'] , 'Risk_Rating'])
 			ans+="\n Advice  : "+str(dfff.loc[ results[0]['cc'] , 'Advice'])
 		#except Exception as e: ans+=e
 		except:
-			ans+="\n No advisory risk score and short advice found"
+			ans+="\n<hr>\n No advisory risk score and short advice found"
 
 
 
@@ -78,10 +161,10 @@ def advisoryinfo():
 				ans+='\n'+l3+'- Sentiment Analysis - 1 : '
 				for i in ss.keys():
 					ans+=i+'-'+str(ss[i])+' , '
-				ans+='\n\n'
+				ans+='\n<hr>\n'
 		#except Exception as e: ans+=e
 		except:
-			ans+='\nSentiment analysis cant be done due to internal error or mismatch error'
+			ans+='\n<hr>\nSentiment analysis cant be done due to internal error or mismatch error'
 	
 		
 		if l1 in df1.index:
@@ -104,7 +187,7 @@ def advisoryinfo():
 		else:
 			ans+='Improper location / Details Not Found / Cant be shown due to name mismatch '
 		
-		ans+='\n\nCombined Advisory data of '+l3+' : \n\n'
+		ans+='\n<hr>\nCombined Advisory data of '+l3+' : \n\n'
 	
 		try:
 			with open('../Travel_Risk_Analysis_Internship/scrapy_sample/Alldata/'+l3+'.txt', 'r') as f:
