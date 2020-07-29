@@ -2,7 +2,7 @@
 <html lang="en">
  
 <head>
-    <title>GoYanna Travel Advisory</title>
+    <title>GoYanna Travel Advisory -  Lat , Long</title>
  
  
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -19,7 +19,6 @@
    color: white;
    text-align: center;
 }     
-
 
 .home
  {  left: 15px; top:15px; }
@@ -52,7 +51,7 @@
     -->
  
         <div class="jumbotron">
-            <h1>Covid cases - India</h1>
+            <h1>Travel Advisory</h1>
             
             
         </div>
@@ -63,25 +62,31 @@
 
 
 
-        <form action="\covid_by_state" method="post">
+        <form action="\advisoryinfo_googleformat" method="post">
 
 
     
 
             <div class="row">
-                <div class="col-sm-3"></div>
+               <div class="col-sm-3">
+                    <div class="card">
+                    </div>
+                </div>
+
                 <div class="col-sm-6">
                     <div class="card">
                         <div class="card-body">
                             <!-- Source -->
-                            <h5 class="card-subtitle mb-2 text-muted">Select State name</h5>
-                            <select name="states" id="states">
-                                  {% autoescape false %}{{state_list}}{% endautoescape %}
-                             </select>
+                            <h5 class="card-subtitle mb-2 text-muted">Latitude, Longitude <small>Google Format</small></h5>
+                            <input type="text" required id="latlong" name="latlong">
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-3"></div>
+
+                <div class="col-sm-3">
+                    <div class="card">
+                    </div>
+                </div>
             </div>
 
 
@@ -113,9 +118,11 @@
 
 </footer>
 
+
 <script>
    document.getElementById("b1").addEventListener("click", function(){  window.location.href='home' });
 </script>
+
 
 
 

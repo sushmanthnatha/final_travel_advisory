@@ -19,6 +19,9 @@
    color: white;
    text-align: center;
 }     
+
+.home
+ {  left: 15px; top:15px; }
   
    </style>
 
@@ -26,6 +29,9 @@
 </head>
  
 <body>
+
+     <button class="btn btn-success col-2 home" id="b1">Back To Home</button>
+     <br> <br><br> <br>
  
     <div class="container">
         <!--
@@ -83,7 +89,7 @@
             <br>
             <br>
             <!-- Submit -->
-            <input type="submit" value="Search" class="btn btn-secondary">
+            <center><input type="submit" value="Submit!" class="btn btn-secondary"></center>
         </form>
 
 
@@ -106,6 +112,9 @@
 
 </footer>
 
+<script>
+   document.getElementById("b1").addEventListener("click", function(){  window.location.href='home' });
+</script>
 
 
 
